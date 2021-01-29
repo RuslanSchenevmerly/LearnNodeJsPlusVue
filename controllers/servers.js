@@ -1,23 +1,19 @@
 import { response } from "express"
+import Server from '../models/server_model.js'
 
-let servers = [
-  {id: '1', name: 'Amazon', status: 'Stopped'},
-  {id: '2', name: 'Yandex', status: 'Working'},
-  {id: '3', name: 'Google', status: 'Working'}
-]
+export const getAll = async (request, response) => {
+  const servers = await Server.find({}).lean()
 
-export const getAll = (request, response) => {
   response.status(200).json(servers)
 }
 
-export const create = (request, response) => {
-  const newServer = {
-    id: Date.now().toString(),
+export const create = async (request, response) => {
+  const newServer = new Server({
     ...request.body
-  }
+  })
 
-  servers.push(newServer)
-  response.status(201).json(servers)
+  await newServer.save()
+  response.redirect('/')
 }
 
 export const remove = (request, response) => {

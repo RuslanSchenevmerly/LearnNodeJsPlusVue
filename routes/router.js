@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { getAll, create, remove } from '../controllers/servers.js'
 
 const router = Router()
+import Server from '../models/server_model.js'
 
 router.get('/', (request, response) => {
   response.render('index', {
